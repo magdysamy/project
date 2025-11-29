@@ -1,0 +1,78 @@
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card {
+            border-radius: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow p-4">
+                <h2 class="text-center mb-4">📚 Home Page</h2>
+
+                {% if request.user.is_authenticated %}
+                    <div class="alert alert-success">
+                        <strong>Welcome {{ request.user.username|title }} 👋</strong>  
+                        <p>You are logged in.</p>
+                    </div>
+
+                    <form action="{% url 'logout' %}?next=/accounts/login" method="POST" class="d-inline-block">
+                        {% csrf_token %}
+                        <button class="btn btn-danger">Logout</button>
+                    </form>
+
+                    <a href="{% url 'register' %}?next=/accounts/login" class="btn btn-primary ms-2">
+                        Register New User
+                    </a>
+
+                    <!-- زرار إضافة كتاب جديد -->
+                    <a href="{% url 'create_book' %}" class="btn btn-success ms-2">
+                        ➕ Add New Book
+                    </a>
+
+                {% else %}
+                    <div class="alert alert-warning">
+                        You should be logged in to access more features.
+                    </div>
+
+                    <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-success">
+                        Login
+                    </a>
+                {% endif %}
+
+                <hr class="my-4">
+
+                <div class="mt-4">
+                    <p class="fs-5">📘 Total Books: <strong>{{ num_books }}</strong></p>
+                    <p class="fs-5">📗 Available Books: <strong>{{ num_book_avail }}</strong></p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

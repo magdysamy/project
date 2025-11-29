@@ -1,0 +1,117 @@
+{% load django_bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Book</title>
+    <style>
+        /* خلفية متدرجة للصفحة */
+        body {
+            background: linear-gradient(120deg, #f0f4ff, #d9e4ff);
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        /* تنسيق الكارت */
+        .form-card {
+            background-color: #ffffff;
+            padding: 45px 35px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        /* تكبير الحقول بشكل متوسط */
+        .custom-form input,
+        .custom-form select,
+        .custom-form textarea {
+            width: 100%;
+            max-width: 520px;  /* أكبر من النسخة السابقة */
+            font-size: 1.05rem;
+            border-radius: 8px;
+            padding: 14px 16px 14px 45px; /* مساحة للأيقونات */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        /* تأثير hover على الحقول */
+        .custom-form input:focus,
+        .custom-form select:focus,
+        .custom-form textarea:focus {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border-color: #4a90e2;
+            outline: none;
+        }
+
+        /* أيقونات صغيرة داخل الحقول */
+        .form-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            font-size: 1.2rem;
+        }
+
+        /* زر الإرسال */
+        .custom-form .btn {
+            width: 150px;
+            font-size: 1.05rem;
+            padding: 12px 0;
+        }
+
+        /* لتوسيط الفورم */
+        .form-wrapper {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* مسافة تحت العنوان */
+        .form-card h1 {
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        /* حاوية للحقول مع position relative للأيقونات */
+        .field-wrapper {
+            position: relative;
+            margin-bottom: 22px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container form-wrapper">
+        <div class="row justify-content-center">
+            <div class="col-md-7">  <!-- أعرض من النسخة السابقة -->
+                <div class="form-card">
+                    <h1 class="text-center">Create Book</h1>
+                    <form action="" method="POST" class="custom-form">
+                        {% csrf_token %}
+                        
+                        {# عرض كل حقل مع أيقونة #}
+                        {% for field in form %}
+                        <div class="field-wrapper">
+                            <span class="form-icon">&#128218;</span> {# أيقونة كتاب صغيرة #}
+                            {% bootstrap_field field %}
+                            {% if field.errors %}
+                                <div class="text-danger small">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        
+                        <div class="text-center mt-4">
+                            {% bootstrap_button button_type="submit" content="Submit" %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
